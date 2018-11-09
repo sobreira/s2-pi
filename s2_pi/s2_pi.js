@@ -167,7 +167,34 @@
             }
         }
     };
-	
+
+    // ***Hackeduca --> when the Servo block is executed
+    ext.servo_2 = function (pin, value) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        console.log("servo_2");
+        // validate the pin number for the mode
+        if (validatePin(pin)) {
+            // validate value to be between 0° and 180°
+            if (value === 'VAL') {
+                alert("servo_2 Value must be in the range of 0° - 180°");
+            }
+            else {
+                value = parseInt(value);
+                if (value < 0 || value > 180) {
+                    alert("servo_2 Value must be in the range of 0° - 180°");
+                }
+                else {
+                    var msg = JSON.stringify({
+                        "command": 'servo_2', 'pin': pin, 'value': value
+                    });
+                    console.log(msg);
+                    window.socket.send(msg);
+                }
+            }
+        }
+    };
     // when the play tone block is executed
     ext.play_tone = function (pin, frequency) {
         if (connected == false) {
@@ -219,7 +246,8 @@
             [" ", 'Set BCM %n as an Input', 'input','PIN'],
             [" ", "Set BCM %n Output to %m.high_low", "digital_write", "PIN", "0"],
             [" ", "Set BCM PWM Out %n to %n", "analog_write", "PIN", "VAL"],
-			[" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],     // ***Hackeduca --> Block for Servo 			
+			[" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],	
+			[" ", "Set BCM %n as Servo2 with angle = %n (0° - 180°)", "servo_2", "PIN", "0"],     
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
             ["r", "Read Digital Pin %n", "digital_read", "PIN"]
 
