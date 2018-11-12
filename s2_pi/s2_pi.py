@@ -93,11 +93,14 @@ class S2Pi(WebSocket):
             time.sleep(0.01)
             
             # when a user wishes to output MCP3008
-        elif client_cmd == 'analogic':
+        elif client_cmd == 'mcp_3008':
             pin = int(payload['pin'])
             mcp = MCP3008(pin)
-            print("%.2f" % round(mcp.value,2))
-            time.sleep(0.5)
+            # print("%.2f" % round(mcp.value,2))
+            mcp_read = ("%.2f" % round(mcp.value,2))
+            payload1 = {'report': 'mcp3008', 'pin': str(pin), 'read': str(mcp_read)}
+            msg = json.dumps(payload1)
+            self.sendMessage(msg)
         
         elif client_cmd == 'servo_2':
             pin = int(payload['pin'])
