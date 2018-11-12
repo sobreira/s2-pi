@@ -236,8 +236,8 @@
             var msg = JSON.stringify({
                 "command": 'mcp_3008', 'pin': pin
             });
-            window.socket.send(msg);
-            return digital_inputs[parseInt(pin)]
+            // window.socket.send(msg);
+            // return digital_inputs[parseInt(pin)]
         }
     };
     
