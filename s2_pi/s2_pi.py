@@ -98,7 +98,7 @@ class S2Pi(WebSocket):
             mcp = MCP3008(pin)
             print("%.2f" % round(mcp.value))
         
-            elif client_cmd == 'servo_2':
+        elif client_cmd == 'servo_2':
             pin = int(payload['pin'])
             self.pi.set_mode(pin, pigpio.OUTPUT)
             value = int(payload['value'])
