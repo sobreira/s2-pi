@@ -58,6 +58,11 @@
                 var pin = msg['pin'];
                 digital_inputs[parseInt(pin)] = msg['level']
             }
+            if(reporter === 'mcp3008') {
+                var pin = msg['pin'];
+                digital_inputs[parseInt(pin)] = msg['mcp_read']
+            }            
+            
             console.log(message.data)
         };
         window.socket.onclose = function (e) {
@@ -92,20 +97,6 @@
         if (validatePin(pin)) {
             var msg = JSON.stringify({
                 "command": 'input', 'pin': pin
-            });
-            window.socket.send(msg);
-        }
-    };
-
-    // when the connect to server block is executed
-    ext.analogic = function (pin) {
-        if (connected == false) {
-            alert("Server Not Connected");
-        }
-        // validate the pin number for the mode
-        if (validatePin(pin)) {
-            var msg = JSON.stringify({
-                "command": 'analogic', 'pin': pin
             });
             window.socket.send(msg);
         }
@@ -235,6 +226,21 @@
         }
     };
 
+    // when the connect to server block is executed
+    ext.mcp_3008 = function (pin) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        // validate the pin number for the mode
+        if (validatePin(pin)) {
+            var msg = JSON.stringify({
+                "command": 'mcp_3008', 'pin': pin
+            });
+            window.socket.send(msg);
+            return digital_inputs[parseInt(pin)]
+        }
+    };
+    
     // general function to validate the pin value
     function validatePin(pin) {
         var rValue = true;
@@ -264,7 +270,7 @@
 			[" ", "Set BCM %n as Servo2 with angle = %n (0° - 180°)", "servo_2", "PIN", "0"],     
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
             ["r", "Read Digital Pin %n", "digital_read", "PIN"],
-            ["r", "Read MCP3008 Pin %m.mcp", "analogic", "0"]
+            ["r", "Read MCP3008 Pin %m.mcp", "mcp_3008", "0"]
 
         ],
         "menus": {
