@@ -96,7 +96,8 @@ class S2Pi(WebSocket):
         elif client_cmd == 'analogic':
             pin = int(payload['pin'])
             mcp = MCP3008(pin)
-            print("%.2f" % round(mcp.value))
+            print("%.2f" % round(mcp.value,2))
+            time.sleep(0.5)
         
         elif client_cmd == 'servo_2':
             pin = int(payload['pin'])
