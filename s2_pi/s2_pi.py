@@ -24,7 +24,7 @@ import os
 import sys
 import time
 from subprocess import call
-
+from gpiozero import MCP3008
 import pigpio
 import psutil
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
@@ -91,8 +91,14 @@ class S2Pi(WebSocket):
             Pulsewidth = int((((PulseMax - PulseMin) / (DegreeMax - DegreeMin)) * value) + PulseMin)
             self.pi.set_servo_pulsewidth(pin, Pulsewidth)
             time.sleep(0.01)
-
-        elif client_cmd == 'servo_2':
+            
+            # when a user wishes to output MCP3008
+        elif client_cmd == 'analogic':
+            pin = int(payload['pin'])
+            mcp = MCP3008(pin)
+            print("%.2f" % round(mcp.value))
+        
+            elif client_cmd == 'servo_2':
             pin = int(payload['pin'])
             self.pi.set_mode(pin, pigpio.OUTPUT)
             value = int(payload['value'])

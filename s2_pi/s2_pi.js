@@ -97,6 +97,20 @@
         }
     };
 
+    // when the connect to server block is executed
+    ext.analogic = function (pin) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        // validate the pin number for the mode
+        if (validatePin(pin)) {
+            var msg = JSON.stringify({
+                "command": 'analogic', 'pin': pin
+            });
+            window.socket.send(msg);
+        }
+    };
+
     // when the digital write block is executed
     ext.digital_write = function (pin, state) {
         if (connected == false) {
@@ -249,11 +263,13 @@
 			[" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],	
 			[" ", "Set BCM %n as Servo2 with angle = %n (0° - 180°)", "servo_2", "PIN", "0"],     
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
-            ["r", "Read Digital Pin %n", "digital_read", "PIN"]
+            ["r", "Read Digital Pin %n", "digital_read", "PIN"],
+            ["r", "Read MCP3008 Pin %m.mcp", "analogic", "0"]
 
         ],
         "menus": {
-            "high_low": ["0", "1"]
+            "high_low": ["0", "1"],
+            "mcp": ["0", "1", "2", "3", "4", "5", "6", "7"],            
 
         },
         url: 'http://MrYsLab.github.io/s2-pi'
