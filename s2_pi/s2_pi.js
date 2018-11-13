@@ -60,7 +60,7 @@
             }
             if(reporter === 'mcp3008') {
                 var pin = msg['pin'];
-                digital_inputs[parseInt(pin)] = msg['read']
+                digital_inputs[parseInt(pin)] = msg['mcp3008_read']
             }            
             
             console.log(message.data)
@@ -238,7 +238,7 @@
             });
             console.log(msg);
             window.socket.send(msg);
-            return digital_inputs[parseInt(pin)]
+            return digital_inputs[parseInt(pin)]  //--> receive data from Raspberry
         }
     };
     
@@ -267,8 +267,8 @@
             [" ", 'Set BCM %n as an Input', 'input','PIN'],
             [" ", "Set BCM %n Output to %m.high_low", "digital_write", "PIN", "0"],
             [" ", "Set BCM PWM Out %n to %n", "analog_write", "PIN", "VAL"],
-			[" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],	
-			[" ", "Set BCM %n as Servo2 with angle = %n (0° - 180°)", "servo_2", "PIN", "0"],     
+            [" ", "Set BCM %n as Servo with angle = %n (0° - 180°)", "servo", "PIN", "0"],
+            [" ", "Set BCM %n as Servo2 with angle = %n (0° - 180°)", "servo_2", "PIN", "0"],     
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
             ["r", "Read Digital Pin %n", "digital_read", "PIN"],
             ["r", "Read MCP3008 Pin %m.mcp", "mcp_3008", "0"]
