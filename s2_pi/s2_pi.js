@@ -58,7 +58,7 @@
                 var pin = msg['pin'];
                 digital_inputs[parseInt(pin)] = msg['level']
             }
-            if(reporter === 'mcp_read') {
+            if(reporter === 'mcp3008') {
                 var pin = msg['pin'];
                 digital_inputs[parseInt(pin)] = msg['read']
             }            
