@@ -19,16 +19,21 @@ s2_pi.py
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 """
+import spidev # To communicate with SPI devices
+from numpy import interp	# To scale values
+from gpiozero import MCP3008
+import Adafruit_DHT
+
+
 import json
 import os
 import sys
 import time
 from subprocess import call
-from gpiozero import MCP3008
 import pigpio
 import psutil
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
-import Adafruit_DHT
+
 
 # This class inherits from WebSocket.
 # It receives messages from the Scratch and reports back for any digital input
@@ -40,7 +45,7 @@ class S2Pi(WebSocket):
         payload = json.loads(self.data)
         print(payload)
         client_cmd = payload['command']
-        # When the user wishes to set a pin as a digital Input
+        # when the user wishes to set a pin as a digital Input
         if client_cmd == 'input':
             pin = int(payload['pin'])
             self.pi.set_glitch_filter(pin, 20000)
@@ -94,14 +99,23 @@ class S2Pi(WebSocket):
             
             # when a user wishes to output MCP3008
         elif client_cmd == 'mcp_3008':
+            spi = spidev.SpiDev() # Created an object
+            spi.open(0,0)	
             pin = int(payload['pin'])
-            mcp = MCP3008(pin)
-            mcp_read = ("%.2f" % round(mcp.value,2))
+            output = analogInput(pin)
+            print(output)
+            payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(output)}
+            msg = json.dumps(payload)
+            self.sendMessage(msg)           
+            
+            
+            # mcp = MCP3008(pin)
+            # mcp_read = ("%.2f" % round(mcp.value,2))
+            
+            
             # print(mcp_read)
             # time.sleep(0.15)
-            payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(mcp_read)}
-            msg = json.dumps(payload)
-            self.sendMessage(msg)
+
 
             # sensor = Adafruit_DHT.DHT11
             # pin = int(payload['pin'])
@@ -154,7 +168,13 @@ class S2Pi(WebSocket):
 
     # call back from pigpio when a digital input value changed
     # send info back up to scratch
-    def input_callback(self, pin, level, tick):
+    def analogInput(channel):
+        spi.max_speed_hz = 1350000
+        adc = spi.xfer2([1,(8+channel)<<4,0])
+        data = ((adc[1]&3) << 8) + adc[2]
+        return data
+        
+        def input_callback(self, pin, level, tick):
         payload = {'report': 'digital_input_change', 'pin': str(pin), 'level': str(level)}
         print('callback', payload)
         msg = json.dumps(payload)
