@@ -21,7 +21,7 @@ s2_pi.py
 """
 import spidev # To communicate with SPI devices
 from numpy import interp	# To scale values
-from gpiozero import MCP3008
+# from gpiozero import MCP3008
 import Adafruit_DHT
 
 import json
