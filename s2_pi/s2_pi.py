@@ -106,12 +106,16 @@ class S2Pi(WebSocket):
             sensor = Adafruit_DHT.DHT11
             pin = int(payload['pin'])
             humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-            mcp_read = ('{0:0.1f}'.format(temperature))
-            print(mcp_read)
-            # time.sleep(0.15)
-            payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(mcp_read)}
-            msg = json.dumps(payload)
-            self.sendMessage(msg)
+            if humidity is not None and temperature is not None:
+                mcp_read = ('{0:0.1f}'.format(temperature))
+                print(mcp_read)
+                # time.sleep(0.15)
+                payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(mcp_read)}
+                msg = json.dumps(payload)
+                self.sendMessage(msg)
+            else:
+                print('null')
+            
             
         elif client_cmd == 'servo_2':
             pin = int(payload['pin'])
