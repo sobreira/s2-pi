@@ -24,7 +24,6 @@ from numpy import interp	# To scale values
 from gpiozero import MCP3008
 import Adafruit_DHT
 
-
 import json
 import os
 import sys
@@ -39,6 +38,9 @@ from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 # It receives messages from the Scratch and reports back for any digital input
 # changes.
 class S2Pi(WebSocket):
+
+    spi = spidev.SpiDev() # Created an object
+    spi.open(0,0)	
 
     def handleMessage(self):
         # get command from Scratch2
@@ -100,13 +102,22 @@ class S2Pi(WebSocket):
             # when a user wishes to output MCP3008
         elif client_cmd == 'mcp_3008':
             pin = int(payload['pin'])
-            mcp = MCP3008(pin)
-            mcp_read = ("%.2f" % round(mcp.value,2))
+            mcp_read = analogInput(pin)
             print(mcp_read)
             # time.sleep(0.15)
             payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(mcp_read)}
             msg = json.dumps(payload)
-            self.sendMessage(msg)
+            self.sendMessage(msg)        
+        
+        
+            # pin = int(payload['pin'])
+            # mcp = MCP3008(pin)
+            # mcp_read = ("%.2f" % round(mcp.value,2))
+            # print(mcp_read)
+            # # time.sleep(0.15)
+            # payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(mcp_read)}
+            # msg = json.dumps(payload)
+            # self.sendMessage(msg)
 
             # sensor = Adafruit_DHT.DHT11
             # pin = int(payload['pin'])
