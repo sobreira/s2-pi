@@ -99,19 +99,16 @@ class S2Pi(WebSocket):
             
             # when a user wishes to output MCP3008
         elif client_cmd == 'mcp_3008':
-            spi = spidev.SpiDev() # Created an object
-            spi.open(0,0)
+            # spi = spidev.SpiDev() # Created an object
+            # spi.open(0,0)
             pin = int(payload['pin'])
-            output = analogInput(pin)
-            print(output)
+            # output = analogInput(pin)
+            # print(output)
+            mcp = MCP3008(pin)
+            mcp_read = ("%.2f" % round(mcp.value,2))
             payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(output)}
             msg = json.dumps(payload)
-            self.sendMessage(msg)           
-            
-            
-            # mcp = MCP3008(pin)
-            # mcp_read = ("%.2f" % round(mcp.value,2))
-            
+            self.sendMessage(msg)              
             
             # print(mcp_read)
             # time.sleep(0.15)
