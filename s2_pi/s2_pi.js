@@ -21,7 +21,7 @@
     var connected = false;
 
     // an array to hold possible digital input values for the reporter block
-    var digital_inputs = new Array(4);
+    var digital_inputs = new Array(32);
     var myStatus = 1; // initially yellow
     var myMsg = 'not_ready';
 
