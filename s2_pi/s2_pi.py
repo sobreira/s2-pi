@@ -108,11 +108,11 @@ class S2Pi(WebSocket):
             payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(mcp_read)}
             msg = json.dumps(payload)
             self.sendMessage(msg)        
-        def analogInput(channel):
-            spi.max_speed_hz = 1350000
-            adc = spi.xfer2([1,(8+channel)<<4,0])
-            data = ((adc[1]&3) << 8) + adc[2]
-            return data        
+            def analogInput(channel):
+                spi.max_speed_hz = 1350000
+                adc = spi.xfer2([1,(8+channel)<<4,0])
+                data = ((adc[1]&3) << 8) + adc[2]
+                return data        
         
             # pin = int(payload['pin'])
             # mcp = MCP3008(pin)
