@@ -96,8 +96,9 @@ class S2Pi(WebSocket):
         elif client_cmd == 'mcp_3008':
             pin = int(payload['pin'])
             mcp = MCP3008(pin)
-            mcp_read = (mcp_read)
+            mcp_read = ("%.2f" % round(mcp.value,2))
             print(mcp_read)
+            # time.sleep(0.15)
             payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(mcp_read)}
             msg = json.dumps(payload)
             self.sendMessage(msg)
