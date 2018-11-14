@@ -28,7 +28,7 @@ from gpiozero import MCP3008
 import pigpio
 import psutil
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
-
+import Adafruit_DHT
 
 # This class inherits from WebSocket.
 # It receives messages from the Scratch and reports back for any digital input
@@ -109,7 +109,7 @@ class S2Pi(WebSocket):
             mcp_read = ('{0:0.1f}'.format(temperature))
             print(mcp_read)
             # time.sleep(0.15)
-            payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(temperature)}
+            payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(mcp_read)}
             msg = json.dumps(payload)
             self.sendMessage(msg)
             
