@@ -60,7 +60,7 @@
             }
             if(reporter === 'mcp3008') {
                 var pin = msg['pin'];
-                digital_inputs[parseInt(pin)] = msg['mcp3008_read']
+                digital_inputs[parseFloat(pin)] = msg['mcp3008_read']
             }            
             
             console.log(message.data)

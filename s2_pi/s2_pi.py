@@ -98,10 +98,11 @@ class S2Pi(WebSocket):
             mcp = MCP3008(pin)
             print("%.2f" % round(mcp.value,2))
             mcp_read = ("%.2f" % round(mcp.value,2))
+            time.sleep(0.15)
             payload1 = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(mcp_read)}
             msg = json.dumps(payload1)
             self.sendMessage(msg)
-            #time.sleep(0.5)
+
             
         elif client_cmd == 'servo_2':
             pin = int(payload['pin'])
