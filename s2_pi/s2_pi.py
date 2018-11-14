@@ -164,7 +164,7 @@ class S2Pi(WebSocket):
         data = ((adc[1]&3) << 8) + adc[2]
         return data
         
-        def input_callback(self, pin, level, tick):
+    def input_callback(self, pin, level, tick):
         payload = {'report': 'digital_input_change', 'pin': str(pin), 'level': str(level)}
         print('callback', payload)
         msg = json.dumps(payload)
