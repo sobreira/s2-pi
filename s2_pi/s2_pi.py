@@ -38,7 +38,7 @@ class S2Pi(WebSocket):
     def handleMessage(self):
         # get command from Scratch2
         payload = json.loads(self.data)
-        # print(payload)
+        print(payload)
         client_cmd = payload['command']
         # When the user wishes to set a pin as a digital Input
         if client_cmd == 'input':
@@ -96,9 +96,8 @@ class S2Pi(WebSocket):
         elif client_cmd == 'mcp_3008':
             pin = int(payload['pin'])
             mcp = MCP3008(pin)
-            print("%.2f" % round(mcp.value,2))
-            mcp_read = ("%.2f" % round(mcp.value,2))
-            # time.sleep(0.15)
+            mcp_read = (mcp_read)
+            print(mcp_read)
             payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(mcp_read)}
             msg = json.dumps(payload)
             self.sendMessage(msg)
