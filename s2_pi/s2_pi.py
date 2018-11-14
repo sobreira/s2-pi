@@ -99,20 +99,14 @@ class S2Pi(WebSocket):
             
             # when a user wishes to output MCP3008
         elif client_cmd == 'mcp_3008':
-            # spi = spidev.SpiDev() # Created an object
-            # spi.open(0,0)
             pin = int(payload['pin'])
-            # output = analogInput(pin)
-            # print(output)
             mcp = MCP3008(pin)
             mcp_read = ("%.2f" % round(mcp.value,2))
-            payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(output)}
-            msg = json.dumps(payload)
-            self.sendMessage(msg)              
-            
-            # print(mcp_read)
+            print(mcp_read)
             # time.sleep(0.15)
-
+            payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(mcp_read)}
+            msg = json.dumps(payload)
+            self.sendMessage(msg)
 
             # sensor = Adafruit_DHT.DHT11
             # pin = int(payload['pin'])
@@ -126,7 +120,6 @@ class S2Pi(WebSocket):
                 # self.sendMessage(msg)
             # else:
                 # print('')
-            
             
         elif client_cmd == 'servo_2':
             pin = int(payload['pin'])
@@ -171,7 +164,7 @@ class S2Pi(WebSocket):
         data = ((adc[1]&3) << 8) + adc[2]
         return data
         
-    def input_callback(self, pin, level, tick):
+        def input_callback(self, pin, level, tick):
         payload = {'report': 'digital_input_change', 'pin': str(pin), 'level': str(level)}
         print('callback', payload)
         msg = json.dumps(payload)

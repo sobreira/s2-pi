@@ -62,7 +62,6 @@
                 var pin = msg['pin'];
                 digital_inputs[parseFloat(pin)] = msg['mcp3008_read']
             }            
-            
             console.log(message.data)
         };
         window.socket.onclose = function (e) {
@@ -233,12 +232,13 @@
         }
         // validate the pin number for the mode
         if (validatePin(pin)) {
+            window.socket.send(msg);
+            return digital_inputs[parseInt(pin)]  //--> receive data from Raspberry
+            
             var msg = JSON.stringify({
                 "command": 'mcp_3008', 'pin': pin
             });
-            console.log(msg);
-            window.socket.send(msg);
-            return digital_inputs[parseInt(pin)]  //--> receive data from Raspberry
+            console.log(msg);            
         }
     };
     
