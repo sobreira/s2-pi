@@ -12,7 +12,7 @@ call(["wget", "-P", pth, "https://raw.githubusercontent.com/MrYsLab/s2-pi/master
 
 setup(
     name='s2-pi',
-    version='1.22',
+    version='1.23',
     packages=['s2_pi'],
 
     entry_points={
