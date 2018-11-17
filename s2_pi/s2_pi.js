@@ -271,12 +271,12 @@
             [" ", "Set BCM %n as Servo2 with angle = %n (0° - 180°)", "servo_2", "PIN", "0"],     
             [" ", "Tone: BCM %n HZ: %n", "play_tone", "PIN", 1000],
             ["r", "Read Digital Pin %n", "digital_read", "PIN"],
-            ["r", "Read MCP3008 Pin %m.mcp", "mcp_3008", "0"]
+            ["r", "Read MCP3008 Pin %m.mcp", "mcp_3008", "A0"]
 
         ],
         "menus": {
             "high_low": ["0", "1"],
-            "mcp": ["0", "1", "2", "3", "4", "5", "6", "7"],            
+            "mcp": ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7"],            
 
         },
         url: 'http://MrYsLab.github.io/s2-pi'
