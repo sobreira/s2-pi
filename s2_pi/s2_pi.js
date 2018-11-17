@@ -236,7 +236,7 @@
             return digital_inputs[parseInt(pin)]  //--> receive data from Raspberry
             
             var msg = JSON.stringify({
-                "command": 'mcp_3008', 'pin': pin
+                "command": 'mcp3008', 'pin': pin
             });
             console.log(msg);
             window.socket.send(msg);
