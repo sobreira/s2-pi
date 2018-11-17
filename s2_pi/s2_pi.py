@@ -19,10 +19,6 @@ s2_pi.py
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 """
-import spidev # To communicate with SPI devices
-from numpy import interp	# To scale values
-import Adafruit_DHT
-
 import json
 import os
 import sys
@@ -32,6 +28,9 @@ import pigpio
 import psutil
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 
+import spidev # To communicate with SPI devices
+from numpy import interp	# To scale values
+import Adafruit_DHT
 
 # This class inherits from WebSocket.
 # It receives messages from the Scratch and reports back for any digital input
@@ -95,7 +94,7 @@ class S2Pi(WebSocket):
             time.sleep(0.01)
             
             # when a user wishes to output MCP3008
-        elif client_cmd == 'mcp_3008':
+        elif client_cmd == 'mcp_3008p':
             spi = spidev.SpiDev() # Created an object
             spi.open(0,0)	
             pin = int(payload['pin'])
