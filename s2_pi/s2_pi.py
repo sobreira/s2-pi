@@ -99,8 +99,8 @@ class S2Pi(WebSocket):
         elif client_cmd == 'mcp_3008':
             spi = spidev.SpiDev() # Created an object
             spi.open(0,0)	
-            pin = int(payload[['pin']-1])
-            print(output)
+            pin = int(payload['pin'])
+            
             spi.max_speed_hz = 1350000
             adc = spi.xfer2([1,(8+pin)<<4,0])
             output = ((adc[1]&3) << 8) + adc[2]
@@ -110,7 +110,7 @@ class S2Pi(WebSocket):
             # time.sleep(0.15)
             payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(output)}
             msg = json.dumps(payload)
-            self.sendMessage(msg)     
+            self.sendMessage(msg)   
 
             
         elif client_cmd == 'servo_2':
