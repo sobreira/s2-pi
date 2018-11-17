@@ -94,7 +94,7 @@ class S2Pi(WebSocket):
             time.sleep(0.01)
             
             # when a user wishes to output MCP3008
-        elif client_cmd == 'mcp3008':
+        elif client_cmd == 'mcp_3008':
             pin = int(payload['pin'])
             spi = spidev.SpiDev() # Created an object
             spi.open(0,0)
