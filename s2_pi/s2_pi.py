@@ -30,7 +30,7 @@ from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 
 import spidev # To communicate with SPI devices
 from numpy import interp	# To scale values
-import Adafruit_DHT
+
 
 # This class inherits from WebSocket.
 # It receives messages from the Scratch and reports back for any digital input
@@ -97,7 +97,7 @@ class S2Pi(WebSocket):
         elif client_cmd == 'mcp_3008p':
             pin = int(payload['pin'])
             
-            output = '72'
+            output = pin
             
             print(output)
             
