@@ -21,7 +21,6 @@ s2_pi.py
 """
 import spidev # To communicate with SPI devices
 from numpy import interp	# To scale values
-# from gpiozero import MCP3008
 import Adafruit_DHT
 
 import json
@@ -98,9 +97,8 @@ class S2Pi(WebSocket):
             # when a user wishes to output MCP3008
         elif client_cmd == 'mcp_3008':
             spi = spidev.SpiDev() # Created an object
-            spi.open(0,0)
+            spi.open(0,0)	
             pin = int(payload['pin'])
-            #pin = int((payload['pin'])[-1])
             
             spi.max_speed_hz = 1350000
             adc = spi.xfer2([1,(8+pin)<<4,0])
@@ -111,7 +109,20 @@ class S2Pi(WebSocket):
             # time.sleep(0.15)
             payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(output)}
             msg = json.dumps(payload)
-            self.sendMessage(msg)   
+            self.sendMessage(msg)
+
+            # sensor = Adafruit_DHT.DHT11
+            # pin = int(payload['pin'])
+            # humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+            # if humidity is not None and temperature is not None:
+                # mcp_read = ('{0:0.1f}'.format(temperature))
+                # print(mcp_read)
+                # # time.sleep(0.15)
+                # payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(mcp_read)}
+                # msg = json.dumps(payload)
+                # self.sendMessage(msg)
+            # else:
+                # print('') 
 
             
         elif client_cmd == 'servo_2':
@@ -164,13 +175,6 @@ class S2Pi(WebSocket):
 
     def handleClose(self):
         print(self.address, 'closed')
-
-    def analogInput(channel):
-        spi.max_speed_hz = 1350000
-        adc = spi.xfer2([1,(8+channel)<<4,0])
-        data = ((adc[1]&3) << 8) + adc[2]
-        return data  
-
 
 def run_server():
     # checking running processes.
