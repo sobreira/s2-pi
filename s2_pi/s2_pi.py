@@ -94,31 +94,20 @@ class S2Pi(WebSocket):
             time.sleep(0.01)
             
             # when a user wishes to output MCP3008
-        elif client_cmd == 'mcp_3008p':
+        elif client_cmd == 'mcp_3008':
             pin = int(payload['pin'])
-            
-            output = pin
+            spi = spidev.SpiDev() # Created an object
+            spi.open(0,0)
+            spi.max_speed_hz = 1350000
+            adc = spi.xfer2([1,(8+pin)<<4,0])
+            output = ((adc[1]&3) << 8) + adc[2]
             
             print(output)
             
             # time.sleep(0.15)
             payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(output)}
             msg = json.dumps(payload)
-            self.sendMessage(msg)
-
-            # sensor = Adafruit_DHT.DHT11
-            # pin = int(payload['pin'])
-            # humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-            # if humidity is not None and temperature is not None:
-                # mcp_read = ('{0:0.1f}'.format(temperature))
-                # print(mcp_read)
-                # # time.sleep(0.15)
-                # payload = {'report': 'mcp3008', 'pin': str(pin), 'mcp3008_read': str(mcp_read)}
-                # msg = json.dumps(payload)
-                # self.sendMessage(msg)
-            # else:
-                # print('') 
-
+            self.sendMessage(msg)  
             
         elif client_cmd == 'servo_2':
             pin = int(payload['pin'])
