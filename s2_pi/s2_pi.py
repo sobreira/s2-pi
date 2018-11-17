@@ -98,8 +98,8 @@ class S2Pi(WebSocket):
             # when a user wishes to output MCP3008
         elif client_cmd == 'mcp_3008':
             spi = spidev.SpiDev() # Created an object
-            spi.open(0,0)	
-            pin = int([payload['pin'])
+            spi.open(0,0)
+            pin = int(payload['pin'])
             #pin = int((payload['pin'])[-1])
             
             spi.max_speed_hz = 1350000
