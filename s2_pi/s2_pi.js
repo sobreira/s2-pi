@@ -214,6 +214,22 @@
         }
     };
 
+    // when the play tone block is executed
+    ext.mcp_3008 = function (pin, frequency) {
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        // validate the pin number for the mode
+        if (validatePin(pin)) {
+            var msg = JSON.stringify({
+                "command": 'mcp_3008', 'pin': pin, 'frequency': frequency
+            });
+            console.log(msg);
+            window.socket.send(msg);
+            return digital_inputs[parseInt(pin)]  //--> receive data from Raspberry
+        }
+    };
+    
     // when the digital read reporter block is executed
     ext.digital_read = function (pin) {
         if (connected == false) {
@@ -226,22 +242,22 @@
     };
 
     // when the connect to server block is executed
-    ext.mcp_3008 = function (pin) {
-        if (connected == false) {
-            alert("Server Not Connected");
-        }
-        // validate the pin number for the mode
-        if (validatePin(pin)) {
-            window.socket.send(msg);
-            return digital_inputs[parseInt(pin)]  //--> receive data from Raspberry
+    // ext.mcp_3008 = function (pin) {
+        // if (connected == false) {
+            // alert("Server Not Connected");
+        // }
+        validate the pin number for the mode
+        // if (validatePin(pin)) {
+            // window.socket.send(msg);
+            // return digital_inputs[parseInt(pin)]  //--> receive data from Raspberry
             
-            var msg = JSON.stringify({
-                "command": 'mcp3008', 'pin': pin
-            });
-            console.log(msg);
-            window.socket.send(msg);
-        }
-    };
+            // var msg = JSON.stringify({
+                // "command": 'mcp3008', 'pin': pin
+            // });
+            // console.log(msg);
+            // window.socket.send(msg);
+        // }
+    // };
     
     // general function to validate the pin value
     function validatePin(pin) {
