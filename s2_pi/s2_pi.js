@@ -246,7 +246,7 @@
         // if (connected == false) {
             // alert("Server Not Connected");
         // }
-        validate the pin number for the mode
+    //    validate the pin number for the mode
         // if (validatePin(pin)) {
             // window.socket.send(msg);
             // return digital_inputs[parseInt(pin)]  //--> receive data from Raspberry
